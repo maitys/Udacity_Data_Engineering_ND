@@ -1,0 +1,2 @@
+etl.ipynb
+https://stackoverflow.com/questions/38380795/pandas-read-json-if-using-all-scalar-values-you-must-pass-an-index
