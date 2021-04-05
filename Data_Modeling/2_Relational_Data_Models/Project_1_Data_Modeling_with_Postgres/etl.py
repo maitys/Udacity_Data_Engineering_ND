@@ -9,6 +9,18 @@ from sql_queries import *
 # process_song_file
 # ######################
 def process_song_file(cur, filepath):
+    """
+    Description: This function can be used to read the file in the filepath (data/song_data)
+    to get the song and artist info and used to populate the songs and artists tables.
+
+    Arguments:
+      cur: the cursor object. 
+      filepath: song data file path. 
+
+    Returns:
+      None
+    """
+
     # open song file
     df = pd.read_json(filepath, typ="series")
     df = pd.DataFrame([df])
@@ -40,6 +52,17 @@ def process_song_file(cur, filepath):
 # process_log_file
 # ######################
 def process_log_file(cur, filepath):
+    """
+    Description: This function can be used to read the file in the filepath (data/log_data)
+    to get the user and time info and used to populate the users and time dim tables.
+
+    Arguments:
+      cur: the cursor object. 
+      filepath: log data file path. 
+
+    Returns:
+      None
+    """
     # open log file
     df = pd.read_json(filepath, lines=True)
     
@@ -100,6 +123,18 @@ def process_log_file(cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
+    """
+    Description: This function takes in the connection credentials, filepath, and functions used to read and process the files to appropriate tables.
+
+    Arguments:
+      cur: the cursor object.
+      conn: postgres connection  
+      filepath: song data file path or log data file path.
+      func:  process_song_file or process_log_file depending on which file needs to be processed
+
+    Returns:
+      None
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
