@@ -13,7 +13,7 @@ Setup a Postgres database with tables designed for users to query and gain insig
 
 ## Postgres Tables:
 1. `users` [user_id, first_name, last_name, gender, level] --> Table with user info. Data input is from log_data
-2. ``songs` [song_id, title, artist_id, year, duration] --> Table with song info. Data input is from song_data
+2. `songs` [song_id, title, artist_id, year, duration] --> Table with song info. Data input is from song_data
 3. `artists` [artist_id, name, location, latitude, longitude] --> Table with artist info. Data input is from song_data
 4. `time` [start_time, hour, day, week, month, year, weekday] --> Table with timestamps for records in `songplays` brown into specific units. Data input is from og_data
 5. `songplays` [start_time, user_id, level, song_id, artist_id, session_id, location, user_agent] --> Records in log data associated with song plays. Data input is rom log_data
