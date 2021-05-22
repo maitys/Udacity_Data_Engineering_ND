@@ -1,0 +1,1 @@
+- use virtual envirnoment `smaity_env1` for this module
