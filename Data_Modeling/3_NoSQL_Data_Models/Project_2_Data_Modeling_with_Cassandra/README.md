@@ -1,4 +1,4 @@
-# Project 1 - Data Modeling with Cassandra
+# Project 2 - Data Modeling with Cassandra
 
 ## Objective: 
 To allow business/data users at Sparkify analyze song and user activity data being collected from their new music streaming app. One of the main goals includes understanding what songs are users listening to
