@@ -31,8 +31,12 @@ Create an Apache Cassandra database which can create queries on song play data t
 - `select artist, song, first_name, last_name from user_session_table where user_id = 10 and session_id = 182`
 - `select first_name, last_name from song_table where song = 'All Hands Against His Own'`
 
-    
-
-
+## Updates Based on Review:
+- Changed the sequence in which columns appear in  CREATE and INSERT statements for all three tables
+- Updated Primary Key for table 2 (user_session_table) and table 3 (song_table)
+- Added description of the query the data is modeled after
+    - For table `session_item_table`, `session_id` and `iteminsession` columns were used as a partition key because the queries will filter on these columns.
+    - For table `user_session_table`, `user_id` and `session_id` columns were used as a partition key because the queries will filter on these columns. The column `iteminsession` was used as a clustering column to help make up a unique key.
+    - For table `song_table`, `song` column were used as a partition key because the queries will filter on this column. The column `user_id` was used as a clustering column to help make up a unique key.
  
 
