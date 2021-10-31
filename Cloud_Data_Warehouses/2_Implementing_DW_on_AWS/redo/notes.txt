@@ -1,0 +1,39 @@
+---------------------------------------------------------------
+Exercise 2: Creating Redshift Cluster using the AWS python SDK
+---------------------------------------------------------------
+    SETUP
+        Load DWH Params from a file
+        Create clients for IAM, EC2, S3 and Redshift
+            **Note**: We are creating these resources in the the **us-west-2** region. Choose the same region in the your AWS web console to the see these resources.
+        Check out the sample data sources on S3
+    
+    STEP 1: IAM ROLE - 
+        Create an IAM Role that makes Redshift able to access S3 bucket (ReadOnly)
+        Attach Policy to the IAM Role
+    STEP 2: Redshift Cluster
+        Create a Redshift Cluster
+        Describe the Cluster to see its status
+        Take note of the cluster <font color='red'> endpoint and role ARN
+    STEP 3: Open an incoming  TCP port to access the cluster ednpoint
+    STEP 4: Make sure you can connect to the cluster
+    STEP 5: Clean up your resources
+        delete the created resources
+        delete the created resources
+
+---------------------------------------------------------------
+Exercise 3: Parallel ETL
+---------------------------------------------------------------
+STEP 1: Get the params of the created redshift cluster 
+- We need:
+    - The redshift cluster <font color='red'>endpoint</font>
+    - The <font color='red'>IAM role ARN</font> that give access to Redshift to read from S3
+
+# STEP 2: Connect to the Redshift Cluster
+# STEP 3: Create Tables for the partitioned data
+# STEP 4: Load Partitioned data into the cluster
+# STEP 5: Create Tables for the non-partitioned data
+# STEP 6: Load Non-partitioned data into the cluster
+
+---------------------------------------------------------------
+Exercise 4: Table Design
+---------------------------------------------------------------
