@@ -1,9 +1,24 @@
+
+- [**Project 3 - Data Warehouse**](#project-3---data-warehouse)
+  - [**Objective:**](#objective)
+  - [**How to achieve the Objective?**](#how-to-achieve-the-objective)
+  - [**Info on Input Files**](#info-on-input-files)
+    - [**S3 Location:**](#s3-location)
+    - [**Notes:**](#notes)
+  - [**Info on Output Tables in Redshift**](#info-on-output-tables-in-redshift)
+    - [**Dimension Tables** <br>](#dimension-tables-)
+    - [**Fact Table** <br>](#fact-table-)
+  - [**How to run the ETL Pipeline** <br>](#how-to-run-the-etl-pipeline-)
+  - [**Files in Repo** <br>](#files-in-repo-)
+  - [**Sample Queries** <br>](#sample-queries-)
+
+
 # **Project 3 - Data Warehouse**
 
 ## **Objective:**
 With the growth of Sparkify, the company has moved its processes and data onto the AWS cloud. The data now resides in S3, across multiple directories of JSON logs. Main objective of this project is to make this data accessible for the analytics team so they can continue finding insights on user behavior.
 
-### **How to achieve the Objective?**
+## **How to achieve the Objective?**
 In order to achieve this objective, we are tasked with building an ETL pipeline that extracts their data from S3, stages them in Redshift, and transforms data into a set of dimensional tables.
 
 ---
@@ -30,15 +45,23 @@ In order to achieve this objective, we are tasked with building an ETL pipeline 
         - `log_data/2018/11/2018-11-12-events.json`
         - `log_data/2018/11/2018-11-13-events.json`
 ---
-## **Info on Output Tablets**
+## **Info on Output Tables in Redshift**
 Using the song and event datasets, we need to create a star schema optimized for queries on song play analysis. This includes the following tables.
 
-**Dimension Tables** <br>
+### **Dimension Tables** <br>
 1. `users` [user_id, first_name, last_name, gender, level] --> Table with user info. Data input is from log_data
 2. `songs` [song_id, title, artist_id, year, duration] --> Table with song info. Data input is from song_data
 3. `artists` [artist_id, name, location, latitude, longitude] --> Table with artist info. Data input is from song_data
 4. `time` [start_time, hour, day, week, month, year, weekday] --> Table with timestamps for records in `songplays` brown into specific units. Data input is from log_data
 
-**Fact Table** <br>
-1. `songplays` [start_time, user_id, level, song_id, artist_id, session_id, location, user_agent] --> Records in log data associated with song plays. Data input is rom log_data
+### **Fact Table** <br>
+1. `songplays` [start_time, user_id, level, song_id, artist_id, session_id, location, user_agent] --> Records in event data associated with song plays. Data input is from log_data.
+
 ---
+## **How to run the ETL Pipeline** <br>
+
+--
+## **Files in Repo** <br>
+
+--
+## **Sample Queries** <br>
