@@ -9,6 +9,7 @@
     - [**Dimension Tables** <br>](#dimension-tables-)
     - [**Fact Table** <br>](#fact-table-)
   - [**How to run the ETL Pipeline** <br>](#how-to-run-the-etl-pipeline-)
+  - [- Run `python etl.py` to run the ETL piepline](#--run-python-etlpy-to-run-the-etl-piepline)
   - [**Files in Repo** <br>](#files-in-repo-)
   - [**Sample Queries** <br>](#sample-queries-)
 
@@ -59,9 +60,77 @@ Using the song and event datasets, we need to create a star schema optimized for
 
 ---
 ## **How to run the ETL Pipeline** <br>
+- Install required packages from `requirements.txt`
+    >pip install -r requirements.txt
+- Update `maitys_aws_dwh.cfg` using your credentials. This file is not pushed to repo for security. Below is the info required in this config file
+    ```
+    [AWS]
+    KEY=
+    SECRET=
 
---
+    [DWH] 
+    DWH_CLUSTER_TYPE=multi-node
+    DWH_NUM_NODES=4
+    DWH_NODE_TYPE=dc2.large
+
+    DWH_IAM_ROLE_NAME=
+    DWH_CLUSTER_IDENTIFIER=
+    DWH_DB=
+    DWH_DB_USER=
+    DWH_DB_PASSWORD=
+    DWH_PORT=5439
+    DWH_ENDPOINT=
+    DWH_ROLE_ARN=
+
+    [S3]
+    LOG_DATA=s3://udacity-dend/log_data
+    LOG_JSONPATH=s3://udacity-dend/log_json_path.json
+    SONG_DATA=s3://udacity-dend/song_data
+    AWS_REGION=us-west-2
+    ```
+- Run `python create_tables.py` to create the database and required tables
+- Run `python etl.py` to run the ETL piepline 
+---
 ## **Files in Repo** <br>
+- `create_tables.py` -  This file contains the logic to create the database and required tables
+- `etl.py` - This file contains the logic to run the ETL pipeline
+- `nb1_resource_setup.ipynb` - This file setups the required resouces for the ETL pipeline
+- `nb2_data_extraction.ipynb` - This file contains the logic to extract data from S3 and stage it in Redshift
+- `nb3_cleanup_resources.ipynb` - This file cleans up the resources created during the ETL pipeline
+- `requirements.txt` - This file contains the required packages for the ETL pipeline
 
---
+---
 ## **Sample Queries** <br>
+```
+    -- Top 10 Songs Played
+    select b.title, count(*) 
+    from public.songplays  a
+    join public.songs b
+    on a.song_id = b.song_id
+    group by 1 order by 2 desc limit 10;
+
+    -- Songs Plays by day for top played title: You're The One
+    select cast(start_time as date) as date, b.title, count(distinct a. song_id) as plays
+    from public.songplays a
+    join public.songs b
+    on a.song_id = b.song_id
+    where b.title = 'You\'re The One'
+    group by 1,2 order by 1,2;
+
+    -- Top 10 Artists Played
+    select b.name, count(*) 
+    from public.songplays  a
+    join public.artists b
+    on a.artist_id = b.artist_id
+    group by 1 order by 2 desc limit 10;
+
+    -- Songs Plays by day for top played title: You're The One
+    select cast(start_time as date) as date, b.name, count(distinct a.  artist_id) as plays
+    from public.songplays a
+    join public.artists b
+    on a.artist_id = b.artist_id
+    where b.name = 'Dwight Yoakam'
+    group by 1,2 order by 1,2;
+```
+
+---
