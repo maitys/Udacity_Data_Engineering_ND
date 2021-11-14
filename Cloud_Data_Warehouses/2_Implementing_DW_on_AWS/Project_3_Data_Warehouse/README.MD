@@ -9,7 +9,6 @@
     - [**Dimension Tables** <br>](#dimension-tables-)
     - [**Fact Table** <br>](#fact-table-)
   - [**How to run the ETL Pipeline** <br>](#how-to-run-the-etl-pipeline-)
-  - [- Run `python etl.py` to run the ETL piepline](#--run-python-etlpy-to-run-the-etl-piepline)
   - [**Files in Repo** <br>](#files-in-repo-)
   - [**Sample Queries** <br>](#sample-queries-)
 
@@ -60,9 +59,9 @@ Using the song and event datasets, we need to create a star schema optimized for
 
 ---
 ## **How to run the ETL Pipeline** <br>
-- Install required packages from `requirements.txt`
+1. Install required packages from `requirements.txt`
     >pip install -r requirements.txt
-- Update `maitys_aws_dwh.cfg` using your credentials. This file is not pushed to repo for security. Below is the info required in this config file
+2. Update `maitys_aws_dwh.cfg` using your credentials. This file is not pushed to repo for security. Below is the info required in this config file
     ```
     [AWS]
     KEY=
@@ -88,8 +87,9 @@ Using the song and event datasets, we need to create a star schema optimized for
     SONG_DATA=s3://udacity-dend/song_data
     AWS_REGION=us-west-2
     ```
-- Run `python create_tables.py` to create the database and required tables
-- Run `python etl.py` to run the ETL piepline 
+3. Run `python create_tables.py` to create the database and required tables
+4. Run `python etl.py` to run the ETL piepline 
+   
 ---
 ## **Files in Repo** <br>
 - `sql_queries.py`: Contains the SQL queries to drop tables, create the tables, and load data into tables
