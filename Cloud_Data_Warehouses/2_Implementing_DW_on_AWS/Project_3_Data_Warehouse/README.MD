@@ -11,6 +11,7 @@
   - [**How to run the ETL Pipeline** <br>](#how-to-run-the-etl-pipeline-)
   - [**Files in Repo** <br>](#files-in-repo-)
   - [**Sample Queries** <br>](#sample-queries-)
+  - [Updates Based on Review:](#updates-based-on-review)
 
 
 # **Project 3 - Data Warehouse**
@@ -135,3 +136,5 @@ Using the song and event datasets, we need to create a star schema optimized for
 ```
 
 ---
+## Updates Based on Review:
+- Added docstrings to all functions
