@@ -92,6 +92,7 @@ Using the song and event datasets, we need to create a star schema optimized for
 - Run `python etl.py` to run the ETL piepline 
 ---
 ## **Files in Repo** <br>
+- `sql_queries.py`: Contains the SQL queries to drop tables, create the tables, and load data into tables
 - `create_tables.py` -  This file contains the logic to create the database and required tables
 - `etl.py` - This file contains the logic to run the ETL pipeline
 - `nb1_resource_setup.ipynb` - This file setups the required resouces for the ETL pipeline
