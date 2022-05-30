@@ -8,12 +8,9 @@
   - [**Info on Output files in S3**](#info-on-output-files-in-s3)
     - [**Dimension Files** <br>](#dimension-files-)
     - [**Fact File** <br>](#fact-file-)
-  - [1. `songplays` [start_time, user_id, level, song_id, artist_id, session_id, location, user_agent] --> Records in event data associated with song plays. Data input is from log_data.](#1-songplays-start_time-user_id-level-song_id-artist_id-session_id-location-user_agent----records-in-event-data-associated-with-song-plays-data-input-is-from-log_data)
   - [**How to run the ETL Pipeline** <br>](#how-to-run-the-etl-pipeline-)
   - [**Files in Repo** <br>](#files-in-repo-)
-  - [- `etl.py` - This file contains the logic to run the ETL pipeline](#--etlpy---this-file-contains-the-logic-to-run-the-etl-pipeline)
   - [**Screenshots** <br>](#screenshots-)
-  - [<img src = ".\images\output_files.png" style="width:300px;"/>](#)
 
 
 # **Project 4 - Data Lakes**
@@ -58,6 +55,7 @@ Using the song and event datasets, we need to setup the following files and push
 
 ### **Fact File** <br>
 1. `songplays` [start_time, user_id, level, song_id, artist_id, session_id, location, user_agent] --> Records in event data associated with song plays. Data input is from log_data.
+
 ---
 ## **How to run the ETL Pipeline** <br>
 In order to run the ETL pipeline, we need to setup the Spark environment and create the SparkSession. This can be done by setting up an EMR cluster or via setting up Spark on a local machine. For this project, we will be using the EMR cluster.
@@ -80,6 +78,7 @@ In order to run the ETL pipeline, we need to setup the Spark environment and cre
 - `etl_testing.py`: Contains the code for testing the ETL pipeline. All work in the notebook was conducted on EMR cluster.
 - `dl.cfg`: Contains the credentials for AWS S3.
 - `etl.py` - This file contains the logic to run the ETL pipeline
+
 ---
 
 ## **Screenshots** <br>
@@ -98,5 +97,6 @@ S3 ETL File Bucket:
 S3 Output Bucket:
 
 <img src = ".\images\output_files.png" style="width:300px;"/>
+
 ---
 
