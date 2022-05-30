@@ -1,6 +1,7 @@
 ##########################
 #### Import Libraries ####
 ##########################
+import configparser
 from datetime import datetime
 import os, time
 from pyspark.sql import SparkSession
@@ -12,11 +13,16 @@ from pyspark.sql.functions import monotonically_increasing_id
 ##############################
 #### Create Spark Session ####
 ##############################
+config = configparser.ConfigParser()
+config.read_file(open('dl.cfg'))
+os.environ['AWS_ACCESS_KEY_ID']=config.get('AWS','AWS_ACCESS_KEY_ID')
+os.environ['AWS_SECRET_ACCESS_KEY']=config.get('AWS','AWS_SECRET_ACCESS_KEY')
+
 def create_spark_session():
-    '''
-    This function creates a Spark session
-    '''
-    spark = SparkSession.builder.config("spark.jars.packages", "org.apache.hadoop:hadoop-aws:2.7.0").getOrCreate()
+    spark = SparkSession \
+        .builder \
+        .config("spark.jars.packages", "org.apache.hadoop:hadoop-aws:2.7.0") \
+        .getOrCreate()
     return spark
 
 ###########################
@@ -36,7 +42,7 @@ def process_song_data(spark, input_data, output_data):
     """
     
     # Load raw data
-    input_song_data = input_data + 'song_data/*/*/*/*.json'
+    input_song_data = input_data + 'song_data/A/B/C/*.json'
     start_time = time.time()
     df_song_data = spark.read.json(input_song_data)
     print("Total time to run: {} seconds".format(round((time.time() - start_time),4)))
@@ -45,17 +51,13 @@ def process_song_data(spark, input_data, output_data):
     # ------------------------- # 
     #### Setup songs table ####
     # ------------------------- #
-     # Create table
+    # Create table
     df_songs_table = df_song_data.select('song_id', 'title', 'artist_id', 'year', 'duration').dropDuplicates()
-
-    # Fix Datatypes
-    df_songs_table = df_songs_table.withColumn("duration",col("duration").cast('float'))
-    df_songs_table = df_songs_table.withColumn("year",col("year").cast('integer'))
 
     # Write table to s3 --> parquet files partitioned by year and artist
     output_songs_data = output_data + 'songs/songs.parquet'
     df_songs_table.write.partitionBy('year', 'artist_id').parquet(output_songs_data, 'overwrite')
-
+    
     # --------------------------- # 
     #### Setup artists table ####
     # --------------------------- #
@@ -66,22 +68,18 @@ def process_song_data(spark, input_data, output_data):
     column_names = ["artist_id", "name", "location", "latitude", "longitude"]
     df_artists_table = df_artists_table.toDF(*column_names)
 
-    # Fix Datatypes
-    df_artists_table = df_artists_table.withColumn("latitude",col("latitude").cast('float'))
-    df_artists_table = df_artists_table.withColumn("longitude",col("longitude").cast('float'))
-
     # Write table to s3 --> parquet files
     output_artists_data = output_data + 'artists/artists.parquet'
     df_artists_table.write.parquet(output_artists_data, 'overwrite')
-
+    
 ###########################
 #### Process Song Data ####
 ###########################
 def process_log_data(spark, input_data, output_data):
     """
     1. Load data from log_data and song_data json files on s3
-    2. Create users, time and songplay tables
-    3. Write users, time and songplay tables to parquet files in S3
+    2. Create users, time and songplays tables
+    3. Write users, time and songplays tables to parquet files in S3
     
     Parameters
     ----------
@@ -90,8 +88,8 @@ def process_log_data(spark, input_data, output_data):
     output_data: Path to write parquet files to S3
     """
     # Load raw data
-    input_log_data = input_data + 'log_data/*/*/*.json'
-    input_song_data = input_data + 'song_data/*/*/*/*.json'
+    input_log_data = input_data + 'log_data/2018/11/*.json'
+    input_song_data = input_data + 'song_data/A/B/C/*.json'
     start_time = time.time()
     df_log_data = spark.read.json(input_log_data)
     df_song_data = spark.read.json(input_song_data)
@@ -114,7 +112,7 @@ def process_log_data(spark, input_data, output_data):
 
     # Write table to s3 --> parquet files partitioned by level
     output_users_data = output_data + 'users/users.parquet'
-    df_users_table.write.partitionBy('level').parquet(output_users_data, 'overwrite')   
+    df_users_table.write.parquet(output_users_data, 'overwrite')
 
     # ---------------------- # 
     #### Setup time table ####
@@ -141,7 +139,7 @@ def process_log_data(spark, input_data, output_data):
     # Write table to s3 --> parquet files partitioned by year and month
     output_time_data = output_data + 'time/time.parquet'
     df_time_table.write.partitionBy('year', 'month').parquet(output_time_data, 'overwrite')
-
+    
     # --------------------------- # 
     #### Setup songplays table ####
     # --------------------------- #
@@ -164,7 +162,8 @@ def process_log_data(spark, input_data, output_data):
     df_songplays_table = df_songplays_table.withColumn('year', year('start_time'))
 
     # Select required columns
-    df_songplays_table = df_songplays_table.select('songplay_id', 'start_time', 'userId', 'level', 'song_id', 'artist_id', 'sessionId', 'location', 'userAgent', 'month', 'year').dropDuplicates()
+    df_songplays_table = df_songplays_table.select('songplay_id', 'start_time', 'userId', 'level', 
+                                                   'song_id', 'artist_id', 'sessionId', 'location', 'userAgent', 'month', 'year').dropDuplicates()
 
     # Rename columns
     column_names = ['songplay_id', 'start_time', 'user_id', 'level', 'song_id', 'artist_id', 'session_id', 'location', 'user_agent', 'month', 'year']
@@ -183,12 +182,7 @@ def main():
     output_data = "s3a://maitys-sparkify-outputs/"
     
     process_song_data(spark, input_data, output_data)
-    print("******Step 1 Complete******")
-    print("*" * 50)
-    
     process_log_data(spark, input_data, output_data)
-    print("******Step 2 Complete******")
-    print("*" * 50)
-    
+
 if __name__ == "__main__":
     main()
