@@ -23,6 +23,9 @@ from airflow.hooks.S3_hook import S3Hook
 # 10. Click save
 # 11. Run the DAG
 
+# bucket = "maitys-sparkify-outputsInfo"
+# prefix = "artists"
+
 def list_keys():
     hook = S3Hook(aws_conn_id='aws_credentials')
     bucket = Variable.get('s3_bucket')
