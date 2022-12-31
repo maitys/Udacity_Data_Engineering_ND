@@ -35,9 +35,9 @@ def load_station_data_to_redshift(*args, **kwargs):
 dag = DAG(
     'lesson2.exercise2',
     start_date=datetime.datetime(2018, 1, 1, 0, 0, 0, 0),
-    end_date=datetime.datetime(2018, 2, 1, 0, 0, 0, 0),
-    schedule_interval='@monthly',
-    max_active_runs=1
+    end_date=datetime.datetime(2018, 2, 1, 0, 0, 0, 0), # Dec 1, 2018
+    schedule_interval='@monthly', # monthly, hence 12 total runs
+    max_active_runs=1 # Argument to limit the number of concurrent runs
 )
 
 create_trips_table = PostgresOperator(
